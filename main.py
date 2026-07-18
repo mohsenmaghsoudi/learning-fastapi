@@ -11,4 +11,4 @@ async def root():
 @app.post("/createposts")
 def create_posts(payload: dict = Body(...)):
     print(payload)
-    return {"message": "Post created successfully"}
+    return {"new_post": f"title {payload['title']} content {payload['content']}"}
