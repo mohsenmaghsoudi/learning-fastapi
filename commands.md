@@ -8,3 +8,7 @@ pip install "uvicorn[standard]"
 `bash`
 uvicorn main:app --relaod
 `bash`
+
+**
+Body() diffrence with Body()
+**
