@@ -26,4 +26,5 @@ def create_posts(new_post: Post):
     print(new_post.content)
     print(new_post.published)
     print(new_post.rating)
-    return {"data": "new post"}
+    print(new_post.model_dump())  # convert to dictionary
+    return {"data": new_post}
