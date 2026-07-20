@@ -1,5 +1,3 @@
-from typing import Optional
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -14,20 +12,28 @@ class Post(BaseModel):
     rating: int | None = None
 
 
+my_posts = [{}]
+
+
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"data": my_posts}
 
 
-@app.post("/createposts")
-def create_posts(new_post: Post):
-    print(new_post)
-    print(new_post.title)
-    print(new_post.content)
-    print(new_post.published)
-    print(new_post.rating)
-    print(new_post.model_dump())  # convert to dictionary
-    return {"data": new_post}
+# @app.post("/createposts")
+# def create_posts(new_post: Post):
+#     print(new_post)
+#     print(new_post.title)
+#     print(new_post.content)
+#     print(new_post.published)
+#     print(new_post.rating)
+#     print(new_post.model_dump())  # convert to dictionary
+#     return {"data": new_post}
+@app.post("/posts")
+def create_posts(post: Post):
+    print(post)
+    print(post.model_dump())
+    return {"data": post}
 
 
 # priority of path param, pydantic param, query param
