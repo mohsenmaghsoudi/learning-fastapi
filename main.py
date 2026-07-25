@@ -1,3 +1,5 @@
+from random import randrange
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -12,7 +14,7 @@ class Post(BaseModel):
     rating: int | None = None
 
 
-my_posts = [{}]
+my_posts = []
 
 
 @app.get("/")
@@ -29,10 +31,17 @@ async def root():
 #     print(new_post.rating)
 #     print(new_post.model_dump())  # convert to dictionary
 #     return {"data": new_post}
+@app.get("/posts")
+def get_posts():
+    return {"data": my_posts}
+
+
 @app.post("/posts")
 def create_posts(post: Post):
-    print(post)
-    print(post.model_dump())
+    post_id = randrange(0, 100000)
+    # print(post)
+    # print(post.model_dump())
+    my_posts.append({**post.model_dump(), "id": post_id})
     return {"data": post}
 
 
