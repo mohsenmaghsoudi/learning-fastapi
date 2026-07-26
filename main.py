@@ -36,7 +36,7 @@
 
 from random import randrange
 
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, HTTPException, Response, status
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -64,7 +64,7 @@ def get_posts():
     return {"data": my_posts}
 
 
-@app.post("/posts")
+@app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
     post_id = randrange(0, 100000)
     # print(post)
@@ -79,9 +79,14 @@ def create_posts(post: Post):
 
 
 @app.get("/posts/{id}")
-def get_post(id: int, response: Response):
+def get_post(id: int):
     post = find_post(id)
     if not post:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {"message": f"post with id: {id} was not found."}
+        # response.status_code = status.HTTP_404_NOT_FOUND
+        # return {"message": f"post with id: {id} was not found."}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"post with id: {id} was not found.",
+        )
+
     return {"data": post}
