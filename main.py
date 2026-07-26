@@ -1,27 +1,3 @@
-from random import randrange
-
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI()
-
-
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-    # rating: Optional[int] = None  +ptyhon < 3.10
-    rating: int | None = None
-
-
-my_posts = []
-
-
-@app.get("/posts")
-async def root():
-    return {"data": my_posts}
-
-
 # @app.post("/createposts")
 # def create_posts(new_post: Post):
 #     print(new_post)
@@ -31,18 +7,6 @@ async def root():
 #     print(new_post.rating)
 #     print(new_post.model_dump())  # convert to dictionary
 #     return {"data": new_post}
-@app.get("/posts")
-def get_posts():
-    return {"data": my_posts}
-
-
-@app.post("/posts")
-def create_posts(post: Post):
-    post_id = randrange(0, 100000)
-    # print(post)
-    # print(post.model_dump())
-    my_posts.append({**post.model_dump(), "id": post_id})
-    return {"data": post}
 
 
 # priority of path param, pydantic param, query param
@@ -69,3 +33,53 @@ def create_posts(post: Post):
 #     if q:
 #         result.update({"q": q})
 #
+
+from random import randrange
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+
+class Post(BaseModel):
+    title: str
+    content: str
+    published: bool = True
+    # rating: Optional[int] = None  +ptyhon < 3.10
+    rating: int | None = None
+
+
+my_posts = []
+
+
+def find_post(id: int):
+    for post in my_posts:
+        if post["id"] == id:
+            return post
+    return "dose not exist"
+
+
+@app.get("/posts")
+def get_posts():
+    return {"data": my_posts}
+
+
+@app.post("/posts")
+def create_posts(post: Post):
+    post_id = randrange(0, 100000)
+    # print(post)
+    # print(post.model_dump())
+    my_posts.append({**post.model_dump(), "id": post_id})
+    return {"post_detail": post}
+
+
+# @app.get("/posts/latest")
+# def get_latest_post():
+#     return my_posts[-1]
+
+
+@app.get("/posts/{id}")
+def get_post(id: int):
+    post = find_post(id)
+    return {"data": post}
