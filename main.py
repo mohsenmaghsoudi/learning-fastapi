@@ -17,7 +17,7 @@ class Post(BaseModel):
 my_posts = []
 
 
-@app.get("/")
+@app.get("/posts")
 async def root():
     return {"data": my_posts}
 
