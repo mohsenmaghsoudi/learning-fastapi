@@ -50,13 +50,22 @@ class Post(BaseModel):
     rating: int | None = None
 
 
-my_posts = []
+my_posts = [
+    {"title": "title of post 1", "content": "content of post1", "id": 1},
+    {"title": "title of post 2", "content": "content of post 2", "id": 2},
+]
 
 
 def find_post(id: int):
     for post in my_posts:
         if post["id"] == id:
             return post
+
+
+def fint_post_index(id: int):
+    for index, post in enumerate(my_posts):
+        if post["id"] == id:
+            return index
 
 
 @app.get("/posts")
@@ -90,3 +99,16 @@ def get_post(id: int):
         )
 
     return {"data": post}
+
+
+@app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int):
+    post_index = fint_post_index(id)
+    if not post_index:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"post with id: {id} was not found.",
+        )
+
+    my_posts.pop(post_index)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
