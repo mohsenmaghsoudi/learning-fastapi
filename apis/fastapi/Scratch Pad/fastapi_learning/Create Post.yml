@@ -1,0 +1,24 @@
+info:
+  name: Create Post
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{home_url}}/posts"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "title":"hi",
+        "content": "hihi"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

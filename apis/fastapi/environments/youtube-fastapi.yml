@@ -1,0 +1,5 @@
+name: base_url
+variables:
+  - name: base_url
+    value: 127.0.0.1:8000
+    description: ""

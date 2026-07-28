@@ -1,0 +1,4 @@
+name: New Environment
+variables:
+  - name: home_url
+    value: http://127.0.0.1:8000
