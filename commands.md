@@ -3,6 +3,7 @@
 `python`
 pip install "fastapi[standard]"
 pip install "uvicorn[standard]"
+pip install "pip install "psycopg[binary,pool]" ##pool dont install yet
 `python`
 
 `bash`
