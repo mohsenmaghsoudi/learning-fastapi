@@ -24,3 +24,14 @@ docker run --rm  --name my-postgres \
   --network fastapi_network\
   -d postgres:18.4-alpine
 ```
+
+```bash
+docker run --rm -d \
+  --name my-pgadmin \
+  --network fastapi-network \
+  -p 9999:80 \
+  -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.com' \
+  -e 'PGADMIN_DEFAULT_PASSWORD=admin' \
+  -v pgadmin_data:/var/lib/pgadmin \
+  dpage/pgadmin4
+```
