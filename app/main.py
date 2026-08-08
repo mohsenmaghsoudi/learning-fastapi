@@ -34,12 +34,39 @@
 #         result.update({"q": q})
 #
 
+import time
 from random import randrange
 
+import psycopg
 from fastapi import FastAPI, HTTPException, Response, status
+from psycopg import rows
 from pydantic import BaseModel
 
 app = FastAPI()
+
+DB_URL = "postgresql://admin:admin@localhost:5432/fastapi"
+
+while True:
+    try:
+        # conn = psycopg.connect(
+        #     DB_URL,
+        #     row_factory=rows.dict_row,
+        # )
+        conn = psycopg.connect(
+            host="localhost",
+            port=5432,
+            dbname="fastapi",
+            user="admin",
+            password="admin",
+            row_factory=rows.dict_row,
+        )
+        cursor = conn.cursor()
+        print("Database connection was succesfull!")
+        break
+    except Exception as error:
+        print("Connecting to database failed")
+        print("Error :", error)
+        time.sleep(5)
 
 
 class Post(BaseModel):
